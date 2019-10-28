@@ -1,0 +1,10 @@
+[mysql]
+    db = "polo"
+    host = "127.0.0.1"
+    port = 33061
+    user = "root"
+    password = "1q2w3e"
+[block]
+    [block.1]
+        path = "/data/polo"
+        size = 5                # int 型，单位为 GB，默认为 5GB

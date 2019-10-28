@@ -1,0 +1,43 @@
+package models
+
+import (
+	. "polo/common"
+)
+
+// FileMeta 文件元数据
+type FileMeta struct {
+	BaseModel
+	FileName string `json:"fileName"`
+	FileHash string `json:"fileHash"`
+	BlockID  uint   `json:"blockID"`
+	Offset   int64  `json:"offset"`
+	Length   int64  `json:"length"`
+}
+
+// AddFileMeta 添加元数据
+func AddFileMeta(fileName string, fileHash string, blockID uint, offset int64, length int64) (*FileMeta, error) {
+	meta := FileMeta{
+		FileName: fileName,
+		FileHash: fileHash,
+		BlockID:  blockID,
+		Offset:   offset,
+		Length:   length,
+	}
+	err := DB.Create(&meta).Error
+	if err != nil {
+		Logger.Error(err)
+		return nil, err
+	}
+	return &meta, nil
+}
+
+// GetFileMeta 根据哈希值获取元数据
+func GetFileMeta(fileHash string) (*FileMeta, error) {
+	var meta FileMeta
+	err := DB.First(&meta, "file_hash = ?", fileHash).Error
+	if err != nil {
+		Logger.Error(err)
+		return nil, err
+	}
+	return &meta, nil
+}
