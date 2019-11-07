@@ -7,7 +7,7 @@ import (
 	"polo/utils"
 )
 
-func UploadHandler(c *coco.Coco) coco.Result {
+func UploadFileHandler(c *coco.Coco) coco.Result {
 	f, fh, err := c.Request.FormFile("file")
 	if err != nil {
 		Logger.Error(err)
