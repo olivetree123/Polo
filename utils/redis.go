@@ -1,16 +1,20 @@
 package utils
 
 import (
+	"fmt"
 	"github.com/go-redis/redis"
 	. "polo/common"
+	"polo/config"
 	"time"
 )
 
 var RedisClient *redis.Client
 
 func init() {
+	redisConf := config.Config.GetStringMap("redis")
+	addr := fmt.Sprintf("%s:%d", redisConf["host"], redisConf["port"])
 	RedisClient = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     addr,
 		Password: "", // no password set
 		DB:       0,  // use default DB
 	})
