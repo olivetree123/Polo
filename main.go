@@ -11,6 +11,7 @@ func main() {
 	c.AddRouter("POST", "/polo/upload/content", handlers.UploadContentHandler)
 	c.AddRouter("POST", "/polo/upload/file", handlers.UploadFileHandler)
 	c.AddRouter("GET", "/polo/object/:hash", handlers.DownloadHandler)
+	c.AddRouter("GET", "/polo/info/:hash", handlers.FileInfoHandler)
 	err := c.Run("0.0.0.0", 8300)
 	if err != nil {
 		logrus.Error(err)

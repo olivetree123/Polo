@@ -12,6 +12,7 @@ type FileMeta struct {
 	BlockID  uint   `json:"blockID"`
 	Offset   int64  `json:"offset"`
 	Length   int64  `json:"length"`
+	Count1   int    `json:"count1"` // 下载次数
 }
 
 // AddFileMeta 添加元数据
@@ -40,4 +41,10 @@ func GetFileMeta(fileHash string) (*FileMeta, error) {
 		return nil, err
 	}
 	return &meta, nil
+}
+
+func (meta *FileMeta) AddDownloadCount() error {
+	meta.Count1 += 1
+	err := DB.Save(&meta).Error
+	return err
 }

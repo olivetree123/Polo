@@ -6,6 +6,7 @@ import (
 	"polo/models"
 )
 
+// DownloadHandler 下载
 func DownloadHandler(c *coco.Coco) coco.Result {
 	hash := c.Params.ByName("hash")
 	meta, err := models.GetFileMeta(hash)
@@ -19,6 +20,11 @@ func DownloadHandler(c *coco.Coco) coco.Result {
 		return coco.ErrorResponse(100)
 	}
 	content, err := block.Read(meta.Offset, meta.Length)
+	if err != nil {
+		Logger.Error(err)
+		return coco.ErrorResponse(100)
+	}
+	err = meta.AddDownloadCount()
 	if err != nil {
 		Logger.Error(err)
 		return coco.ErrorResponse(100)
