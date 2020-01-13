@@ -40,3 +40,24 @@ func UploadContentHandler(c *coco.Coco) coco.Result {
 	}
 	return coco.APIResponse(meta)
 }
+
+// GetContentHandler 获取内容
+func GetContentHandler(c *coco.Coco) coco.Result {
+	hash := c.Params.ByName("hash")
+	meta, err := models.GetContentMeta(hash)
+	if err != nil {
+		Logger.Error(err)
+		return coco.ErrorResponse(100)
+	}
+	block, err := models.GetBlock(meta.BlockID)
+	if err != nil {
+		Logger.Error(err)
+		return coco.ErrorResponse(100)
+	}
+	content, err := block.Read(meta.Offset, meta.Length)
+	if err != nil {
+		Logger.Error(err)
+		return coco.ErrorResponse(100)
+	}
+	return coco.APIResponse(string(content))
+}

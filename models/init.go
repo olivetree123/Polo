@@ -54,6 +54,9 @@ func InitDB() {
 	if !DB.HasTable(FileMeta{}) {
 		DB.CreateTable(FileMeta{})
 	}
+	if !DB.HasTable(ContentMeta{}) {
+		DB.CreateTable(ContentMeta{})
+	}
 }
 
 type BlockParam struct {

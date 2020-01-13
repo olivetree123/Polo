@@ -14,10 +14,16 @@ func UploadFileHandler(c *coco.Coco) coco.Result {
 		Logger.Error(err)
 		return coco.ErrorResponse(100)
 	}
+	fileHashInput := c.Request.Form.Get("fileHash")
 	content := make([]byte, fh.Size)
 	length, err := f.Read(content)
 	if err != nil {
 		Logger.Error(err)
+		return coco.ErrorResponse(100)
+	}
+	fileHash := utils.ContentMD5(content)
+	if fileHashInput != "" && fileHashInput != fileHash {
+		Logger.Error("fileHash not equal, input=", fileHashInput, " dest=", fileHash)
 		return coco.ErrorResponse(100)
 	}
 	block, err := models.GetAvailableBlock(int64(length))
@@ -30,7 +36,7 @@ func UploadFileHandler(c *coco.Coco) coco.Result {
 		Logger.Error(err)
 		return coco.ErrorResponse(100)
 	}
-	fileHash := utils.ContentMD5(content)
+
 	meta, err := models.AddFileMeta(fh.Filename, fileHash, block.ID, block.Size-int64(length), fh.Size)
 	if err != nil {
 		Logger.Error(err)

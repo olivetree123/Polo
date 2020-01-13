@@ -4,7 +4,7 @@ import (
 	. "polo/common"
 )
 
-// 内容元数据
+// ContentMeta 内容元数据
 type ContentMeta struct {
 	BaseModel
 	HashValue string `json:"hashValue"`
@@ -13,7 +13,7 @@ type ContentMeta struct {
 	Length    int64  `json:"length"`
 }
 
-// 增加元数据
+// AddContentMeta 增加元数据
 func AddContentMeta(hashValue string, blockID uint, offset int64, length int64) (*ContentMeta, error) {
 	meta := ContentMeta{
 		HashValue: hashValue,
@@ -22,6 +22,17 @@ func AddContentMeta(hashValue string, blockID uint, offset int64, length int64) 
 		Length:    length,
 	}
 	err := DB.Create(&meta).Error
+	if err != nil {
+		Logger.Error(err)
+		return nil, err
+	}
+	return &meta, nil
+}
+
+// GetContentMeta 获取内容元数据
+func GetContentMeta(hashValue string) (*ContentMeta, error) {
+	var meta ContentMeta
+	err := DB.First(&meta, "hash_value = ?", hashValue).Error
 	if err != nil {
 		Logger.Error(err)
 		return nil, err
