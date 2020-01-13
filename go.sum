@@ -107,6 +107,8 @@ github.com/mwitkow/go-conntrack v0.0.0-20161129095857-cc309e4a2223/go.mod h1:qRW
 github.com/oklog/ulid v1.3.1/go.mod h1:CirwcVhetQ6Lv90oh/F+FBtV6XMibvdAFo93nm5qn4U=
 github.com/olivetree123/coco v0.0.0-20191120033334-c12aea9497af h1:N7jsiNsxjqFpt9KsnY5cmqtXmVv2nUO/VLnusE1s3FE=
 github.com/olivetree123/coco v0.0.0-20191120033334-c12aea9497af/go.mod h1:cNizQaqFsUVSBXy3AYh9OuuEPMYKBVSadu2XENQfGB4=
+github.com/olivetree123/coco v0.0.0-20200113014929-f05c2926fbe4 h1:bygEkzQO366thyC+c4J2qW10g4qbI8OcRasnmVKZZX4=
+github.com/olivetree123/coco v0.0.0-20200113014929-f05c2926fbe4/go.mod h1:cNizQaqFsUVSBXy3AYh9OuuEPMYKBVSadu2XENQfGB4=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.7.0 h1:WSHQ+IS43OoUrWtD1/bbclrwK8TTH5hzp+umCiuxHgs=
 github.com/onsi/ginkgo v1.7.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
