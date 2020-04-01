@@ -3,7 +3,11 @@ package models
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"os"
+	"path/filepath"
+
+	//_ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/mitchellh/mapstructure"
 	. "polo/common"
 	"polo/config"
@@ -12,6 +16,7 @@ import (
 
 // DB 数据库连接对象
 var DB *gorm.DB
+var DB_DIR = "/var/lib/polo/"
 
 // BaseModel 基础模型
 type BaseModel struct {
@@ -29,20 +34,15 @@ func (model *BaseModel) Remove() bool {
 
 // InitDB 数据库初始化
 func InitDB() {
-	// driver := revel.Config.StringDefault("db.driver", "")
-	// connect_string := revel.Config.StringDefault("db.connect", "")
-	// DB, err = sql.Open(driver, connect_string)
-	var err error
-	mysqlConf := config.Config.GetStringMap("mysql")
-	mysqlURL := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
-		mysqlConf["user"],
-		mysqlConf["password"],
-		mysqlConf["host"],
-		mysqlConf["port"],
-		mysqlConf["db"],
-	)
-	Logger.Info("mysqlURL = ", mysqlURL)
-	DB, err = gorm.Open("mysql", mysqlURL)
+	_, err := os.Stat(DB_DIR)
+	if os.IsNotExist(err) {
+		err = os.Mkdir(DB_DIR, 0755)
+		if err != nil {
+			panic(err)
+		}
+	}
+	dbPath := filepath.Join(DB_DIR, "polo.db")
+	DB, err = gorm.Open("sqlite3", dbPath)
 	if err != nil {
 		fmt.Println(err)
 		return

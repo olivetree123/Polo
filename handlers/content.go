@@ -8,6 +8,7 @@ import (
 	"polo/utils"
 )
 
+// UploadContentParam 上传内容参数
 type UploadContentParam struct {
 	Content string
 }

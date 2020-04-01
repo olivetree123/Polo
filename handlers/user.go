@@ -2,10 +2,11 @@ package handlers
 
 import (
 	"encoding/json"
-	"github.com/olivetree123/coco"
 	"polo/entity"
 	"polo/models"
 	"polo/utils"
+
+	"github.com/olivetree123/coco"
 )
 
 type SignUpParam struct {
@@ -50,10 +51,7 @@ func SignInHandler(c *coco.Coco) coco.Result {
 		panic(err)
 	}
 	result := entity.NewSignInResponse(isValid, user)
-	err = utils.SetCache(result.Token, "1", 3600)
-	if err != nil {
-		panic(err)
-	}
+	utils.SetCacheWithExpire(result.Token, "1", 3600)
 	return coco.APIResponse(result)
 }
 
