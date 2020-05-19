@@ -9,9 +9,9 @@ import (
 // DownloadHandler 下载
 func DownloadHandler(c *coco.Coco) coco.Result {
 	hash := c.Params.ByName("hash")
-	meta, err := models.GetFileMeta(hash)
+	meta, err := models.GetFileMeta(hash[:32])
 	if err != nil {
-		Logger.Error(err)
+		Logger.Error(err, ", fileHash = ", hash[:32])
 		return coco.ErrorResponse(100)
 	}
 	block, err := models.GetBlock(meta.BlockID)

@@ -45,7 +45,7 @@ func UploadContentHandler(c *coco.Coco) coco.Result {
 // GetContentHandler 获取内容
 func GetContentHandler(c *coco.Coco) coco.Result {
 	hash := c.Params.ByName("hash")
-	meta, err := models.GetContentMeta(hash)
+	meta, err := models.GetContentMeta(hash[:32])
 	if err != nil {
 		Logger.Error(err)
 		return coco.ErrorResponse(100)

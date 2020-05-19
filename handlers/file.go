@@ -52,7 +52,7 @@ func UploadFileHandler(c *coco.Coco) coco.Result {
 // FileInfoHandler 获取文件信息，文件大小、下载次数
 func FileInfoHandler(c *coco.Coco) coco.Result {
 	hash := c.Params.ByName("hash")
-	meta, err := models.GetFileMeta(hash)
+	meta, err := models.GetFileMeta(hash[:32])
 	if err != nil {
 		Logger.Error(err)
 		return coco.ErrorResponse(100)

@@ -37,7 +37,6 @@ func GetFileMeta(fileHash string) (*FileMeta, error) {
 	var meta FileMeta
 	err := DB.First(&meta, "file_hash = ?", fileHash).Error
 	if err != nil {
-		Logger.Error(err)
 		return nil, err
 	}
 	return &meta, nil
