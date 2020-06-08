@@ -1,8 +1,8 @@
-FROM ubuntu:18.04
+FROM alpine
 
 WORKDIR /app
 
 COPY polo /app
 RUN mkdir /etc/polo && chmod +x /app/polo
 COPY config.toml /etc/polo/
-CMD ["./polo"]
+CMD /app/polo
