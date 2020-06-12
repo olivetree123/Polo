@@ -17,8 +17,7 @@ type UploadContentParam struct {
 func UploadContentHandler(c *coco.Coco) coco.Result {
 	decoder := json.NewDecoder(c.Request.Body)
 	var param UploadContentParam
-	err := decoder.Decode(&param)
-	if err != nil {
+	if err := decoder.Decode(&param); err != nil {
 		Logger.Error(err)
 		return coco.ErrorResponse(100)
 	}

@@ -35,8 +35,7 @@ func UploadFileHandler(c *coco.Coco) coco.Result {
 		Logger.Error(err)
 		return coco.ErrorResponse(100)
 	}
-	err = block.Write(content)
-	if err != nil {
+	if err = block.Write(content); err != nil {
 		Logger.Error(err)
 		return coco.ErrorResponse(100)
 	}

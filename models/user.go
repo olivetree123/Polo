@@ -18,8 +18,7 @@ func NewUser(account string, cipher string) (*User, error) {
 		Cipher:  utils.ContentMD5([]byte(cipher)),
 		Avatar:  "",
 	}
-	err := DB.Create(&user).Error
-	if err != nil {
+	if err := DB.Create(&user).Error; err != nil {
 		return nil, err
 	}
 	return &user, nil
@@ -29,8 +28,7 @@ func NewUser(account string, cipher string) (*User, error) {
 func ValidateCipher(account string, cipher string) (bool, *User, error) {
 	var user User
 	cipher2 := utils.ContentMD5([]byte(cipher))
-	err := DB.First(&user, "account = ?", account).Error
-	if err != nil {
+	if err := DB.First(&user, "account = ?", account).Error; err != nil {
 		return false, nil, err
 	}
 	if user.Cipher == cipher2 {

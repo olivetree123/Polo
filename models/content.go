@@ -1,9 +1,5 @@
 package models
 
-import (
-	. "polo/common"
-)
-
 // ContentMeta 内容元数据
 type ContentMeta struct {
 	BaseModel
@@ -21,9 +17,7 @@ func AddContentMeta(hashValue string, blockID uint, offset int64, length int64) 
 		Offset:    offset,
 		Length:    length,
 	}
-	err := DB.Create(&meta).Error
-	if err != nil {
-		Logger.Error(err)
+	if err := DB.Create(&meta).Error; err != nil {
 		return nil, err
 	}
 	return &meta, nil
@@ -32,9 +26,7 @@ func AddContentMeta(hashValue string, blockID uint, offset int64, length int64) 
 // GetContentMeta 获取内容元数据
 func GetContentMeta(hashValue string) (*ContentMeta, error) {
 	var meta ContentMeta
-	err := DB.First(&meta, "hash_value = ?", hashValue).Error
-	if err != nil {
-		Logger.Error(err)
+	if err := DB.First(&meta, "hash_value = ?", hashValue).Error; err != nil {
 		return nil, err
 	}
 	return &meta, nil

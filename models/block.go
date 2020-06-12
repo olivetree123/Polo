@@ -24,9 +24,7 @@ func NewBlock(path string, maxSize int64) (*Block, error) {
 		MaxSize: maxSize,
 		Size:    0,
 	}
-	err := DB.Create(&block).Error
-	if err != nil {
-		Logger.Error(err)
+	if err := DB.Create(&block).Error; err != nil {
 		return nil, err
 	}
 	Logger.Info("block = ", block)
@@ -35,8 +33,7 @@ func NewBlock(path string, maxSize int64) (*Block, error) {
 
 func GetBlock(blockID uint) (*Block, error) {
 	var block Block
-	err := DB.First(&block, "id = ?", blockID).Error
-	if err != nil {
+	if err := DB.First(&block, "id = ?", blockID).Error; err != nil {
 		return nil, err
 	}
 	return &block, nil
@@ -45,9 +42,7 @@ func GetBlock(blockID uint) (*Block, error) {
 // ListBlock 列出所有 block
 func ListBlock() ([]Block, error) {
 	var blocks []Block
-	err := DB.Find(&blocks).Error
-	if err != nil {
-		Logger.Error(err)
+	if err := DB.Find(&blocks).Error; err != nil {
 		return nil, err
 	}
 	return blocks, nil
@@ -55,8 +50,7 @@ func ListBlock() ([]Block, error) {
 
 func GetBlockByPath(path string) (*Block, error) {
 	var block Block
-	err := DB.First(&block, "path = ?", path).Error
-	if err != nil {
+	if err := DB.First(&block, "path = ?", path).Error; err != nil {
 		return nil, err
 	}
 	return &block, nil
@@ -87,16 +81,15 @@ func (block *Block) Write(content []byte) error {
 	if err != nil {
 		return err
 	}
+	defer f.Close()
 	_, err = f.WriteAt(content, block.Size)
 	if err != nil {
 		return err
 	}
 	block.Size += int64(len(content))
-	err = DB.Save(block).Error
-	if err != nil {
+	if err = DB.Save(block).Error; err != nil {
 		return err
 	}
-	f.Close()
 	return nil
 }
 
@@ -105,12 +98,11 @@ func (block *Block) Read(offset int64, length int64) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer f.Close()
 	content := make([]byte, length)
-	_, err = f.ReadAt(content, offset)
-	if err != nil {
+	if _, err = f.ReadAt(content, offset); err != nil {
 		return nil, err
 	}
-	f.Close()
 	return content, nil
 }
 

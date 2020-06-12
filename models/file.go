@@ -1,9 +1,5 @@
 package models
 
-import (
-	. "polo/common"
-)
-
 // FileMeta 文件元数据
 type FileMeta struct {
 	BaseModel
@@ -24,9 +20,7 @@ func AddFileMeta(fileName string, fileHash string, blockID uint, offset int64, l
 		Offset:   offset,
 		Length:   length,
 	}
-	err := DB.Create(&meta).Error
-	if err != nil {
-		Logger.Error(err)
+	if err := DB.Create(&meta).Error; err != nil {
 		return nil, err
 	}
 	return &meta, nil
@@ -35,8 +29,7 @@ func AddFileMeta(fileName string, fileHash string, blockID uint, offset int64, l
 // GetFileMeta 根据哈希值获取元数据
 func GetFileMeta(fileHash string) (*FileMeta, error) {
 	var meta FileMeta
-	err := DB.First(&meta, "file_hash = ?", fileHash).Error
-	if err != nil {
+	if err := DB.First(&meta, "file_hash = ?", fileHash).Error; err != nil {
 		return nil, err
 	}
 	return &meta, nil
